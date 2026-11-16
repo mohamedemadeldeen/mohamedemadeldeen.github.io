@@ -68,7 +68,7 @@ img, video { display: block; max-width: 100%; }
 .icon-btn:hover { border-color: var(--brand); color: var(--brand-dark); }
 .icon-btn .ico { width: 20px; height: 20px; }
 .side { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.ring { padding: 6px; border-radius: 50%; background: linear-gradient(140deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow-lg); }
+.ring { padding: 6px; border-radius: 50%; background: linear-gradient(140deg, var(--brand), var(--brand-2)); box-shadow: 0 0 0 10px rgba(13,148,136,.10), 0 18px 45px rgba(13,148,136,.38), 0 6px 18px rgba(14,165,233,.22); }
 .ring img { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: var(--brand-soft); }
 .stats { display: flex; gap: 28px; }
 .stat { text-align: center; }
