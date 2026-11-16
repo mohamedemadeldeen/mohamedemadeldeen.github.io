@@ -171,6 +171,6 @@ window.PORTFOLIO = {
   },
 
   education: [
-    { degree: "B.Sc. Information Technology", school: "Faculty of Computers and Information", detail: "Grade: Very Good" },
+    { degree: "B.Sc. Information Technology", school: "Faculty of Computers and Information, Menoufia University", detail: "Grade: Very Good" },
   ],
 };
