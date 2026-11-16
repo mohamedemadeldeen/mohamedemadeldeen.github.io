@@ -3,26 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Projects by Mohamed Emad: voice agents, LLM systems and real-time computer vision.">
-  <title>Projects · Mohamed Emad</title>
+  <title>Projects — Mohamed Emad</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="projects">
   <nav class="nav" id="nav"></nav>
-
-  <section>
-    <div class="wrap">
-      <p class="eyebrow">Projects</p>
-      <h1 style="font-size:42px;letter-spacing:-0.03em;margin:0 0 8px">What we built, and how it performs</h1>
-      <p class="lead">Each project with a demo video, the numbers that matter, and the stack.</p>
-      <div id="cases"></div>
+  <section><div class="wrap">
+    <div class="sec-head"><small>↳</small><h2>Projects</h2></div>
+    <p class="summary">Demos of the systems my squads built: voice agents, RAG, agents and computer vision.</p>
+    <div class="filters">
+      <button class="on" data-cat="all">All</button>
+      <button data-cat="llm">LLM &amp; Agentic AI</button>
+      <button data-cat="cv">Computer Vision</button>
     </div>
-  </section>
-
+    <div id="cases"></div>
+  </div></section>
   <footer id="footer"></footer>
-
   <script src="data/portfolio.js"></script>
   <script src="app.js"></script>
 </body>
