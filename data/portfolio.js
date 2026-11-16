@@ -3,9 +3,9 @@
 
 window.PORTFOLIO = {
   name: "Mohamed Emad",
-  shortName: "Emad",
+  shortName: "Mohamed Emad",
   title: "AI Team Lead | Generative AI, Voice Agents & Computer Vision",
-  status: "Leading AI squads at Wakeb Data",
+  status: "Managing the AI team at Wakeb Data",
   summary:
     "AI Team Lead with 9+ years building and shipping machine learning systems. I lead four squads (LLMs & agentic systems, speech & voice, computer vision, 3D point cloud) and build alongside them, delivering on-premise Arabic voice agents, grounded RAG platforms, and real-time computer vision for clients who need their data to stay in-house.",
   location: "Giza, Egypt",
