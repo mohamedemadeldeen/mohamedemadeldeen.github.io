@@ -42,7 +42,7 @@
   $("#footer").innerHTML = `
     <div class="wrap">
       <span>© ${new Date().getFullYear()} ${esc(P.name)} · ${esc(P.location)}</span>
-      <span><a href="mailto:${esc(P.links.email)}">Email</a> · <a href="${esc(P.links.linkedin)}">LinkedIn</a> · <a href="${esc(P.links.github)}">GitHub</a></span>
+      <span><a href="mailto:${esc(P.links.email)}">Email</a> · <a href="${esc(P.links.linkedin)}">LinkedIn</a></span>
     </div>`;
 
   if (page === "home") {
@@ -57,7 +57,6 @@
             <a class="btn primary" href="projects.html">See projects</a>
             <a class="btn" href="${esc(P.cv)}" download>Download CV</a>
             <a class="btn" href="${esc(P.links.linkedin)}">LinkedIn</a>
-            <a class="btn" href="${esc(P.links.github)}">GitHub</a>
           </div>
         </div>
         <img class="photo" src="${esc(P.photo)}" alt="${esc(P.name)}" onerror="this.style.display='none'">
