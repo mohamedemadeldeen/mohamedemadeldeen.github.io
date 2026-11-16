@@ -91,6 +91,7 @@
     const details = {};
     P.experience.forEach((j) => j.groups.forEach((g) => (g.projects || []).forEach((p) => (details[p.id] = p))));
     const media = (p) => {
+      if (window.DEMOS && DEMOS.has(p.id)) return `<div class="demo-box" data-demo="${esc(p.id)}"></div>`;
       if (p.youtube) return `<div class="media"><iframe src="https://www.youtube.com/embed/${esc(p.youtube)}" title="${esc(p.name)}" allowfullscreen loading="lazy"></iframe></div>`;
       const ph = `<div class="ph"><div><b>${esc(p.name.split(" — ")[0])}</b>Demo video coming soon</div></div>`;
       return `<div class="media">${ph}${p.video ? `<video src="${esc(p.video)}" controls playsinline preload="metadata" onerror="this.remove()"></video>` : ""}</div>`;
@@ -106,6 +107,7 @@
           ${d ? bullets(d.bullets) : ""}
         </article>`;
       }).join("");
+      document.querySelectorAll("[data-demo]").forEach((el) => DEMOS.mount(el, el.dataset.demo));
     };
     document.querySelectorAll(".filters button").forEach((b) =>
       b.addEventListener("click", () => {
