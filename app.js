@@ -1,5 +1,30 @@
 (function () {
-  const P = window.PORTFOLIO;
+  // ---- language: ?lang=ar|en, else the last choice, else English ----
+  const qs = new URLSearchParams(location.search).get("lang");
+  let LANG = qs || (() => { try { return localStorage.getItem("lang"); } catch (e) { return null; } })() || "en";
+  if (LANG !== "ar") LANG = "en";
+  try { localStorage.setItem("lang", LANG); } catch (e) {}
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
+  const merge = (a, b) => {
+    if (b === undefined) return a;
+    if (Array.isArray(a)) return a.map((x, i) => merge(x, Array.isArray(b) ? b[i] : undefined));
+    if (a && typeof a === "object") { const o = { ...a }; for (const k in b) o[k] = k in a ? merge(a[k], b[k]) : b[k]; return o; }
+    return b;
+  };
+  const P = LANG === "ar" && window.PORTFOLIO_AR ? { ...merge(window.PORTFOLIO, window.PORTFOLIO_AR), skills: window.PORTFOLIO_AR.skills || window.PORTFOLIO.skills } : window.PORTFOLIO;
+  const T = {
+    en: { about: "About", experience: "Experience", skills: "Skills", education: "Education", projects: "Projects", hi: "Hi, I'm", resume: "Resume", demos: "Project demos →",
+      demo: "Demo", details: "Details", certs: "Certifications", email: "Email", other: "العربية", expLead: "9+ years building and shipping ML systems.", skillsLead: "The tools behind the projects above.",
+      projTitle: "Projects", projLead: "What my squads built: Arabic voice agents, sovereign RAG, agentic automation, satellite and drone imagery, and real-time LiDAR perception.",
+      all: "All", llm: "LLM & Agentic AI", cv: "Computer Vision", d3: "3D Vision", soon: "${T.soon}" },
+    ar: { about: "نبذة", experience: "الخبرة", skills: "المهارات", education: "التعليم", projects: "المشاريع", hi: "أهلًا، أنا", resume: "السيرة الذاتية", demos: "عروض المشاريع ←",
+      demo: "عرض", details: "تفاصيل", certs: "الشهادات", email: "البريد", other: "English", expLead: "أكثر من 9 سنوات في بناء أنظمة تعلّم الآلة وإطلاقها.", skillsLead: "الأدوات التي بُنيت بها هذه المشاريع.",
+      projTitle: "المشاريع", projLead: "ما بنته فرقي: وكلاء صوتيون عرب، ومنصة RAG سيادية، وأتمتة بالوكلاء، وتحليل صور الأقمار الصناعية والدرون، وإدراك LiDAR لحظي.",
+      all: "الكل", llm: "النماذج اللغوية والوكلاء", cv: "الرؤية الحاسوبية", d3: "الرؤية ثلاثية الأبعاد", soon: "فيديو العرض قريبًا" },
+  }[LANG];
+  document.querySelectorAll("[data-t]").forEach((el) => { if (T[el.dataset.t]) el.textContent = T[el.dataset.t]; });
+  if (LANG === "ar") document.title = document.body.dataset.page === "projects" ? `المشاريع — ${P.name}` : `${P.name} — قائد فريق ذكاء اصطناعي`;
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const icon = {
@@ -23,37 +48,43 @@
   $("#nav").innerHTML = `<div class="wrap">
     <a class="brand" href="index.html">${esc(P.shortName)}</a>
     <ul>
-      <li class="hide-sm"><a href="${home}#about">About</a></li>
-      <li><a href="${home}#experience">Experience</a></li>
-      <li class="hide-sm"><a href="${home}#skills">Skills</a></li>
-      <li class="hide-sm"><a href="${home}#education">Education</a></li>
-      <li><a class="pill-link ${page === "projects" ? "active" : ""}" href="projects.html">${icon.cube} Projects</a></li>
+      <li class="hide-sm"><a href="${home}#about">${T.about}</a></li>
+      <li><a href="${home}#experience">${T.experience}</a></li>
+      <li class="hide-sm"><a href="${home}#skills">${T.skills}</a></li>
+      <li class="hide-sm"><a href="${home}#education">${T.education}</a></li>
+      <li><a class="pill-link ${page === "projects" ? "active" : ""}" href="projects.html">${icon.cube} ${T.projects}</a></li>
+      <li><button class="lang-btn" id="lang-btn" type="button">${T.other}</button></li>
     </ul></div>`;
+  document.getElementById("lang-btn").addEventListener("click", () => {
+    const next = LANG === "ar" ? "en" : "ar";
+    try { localStorage.setItem("lang", next); } catch (e) {}
+    const u = new URL(location.href); u.searchParams.set("lang", next); location.href = u.toString();
+  });
   $("#footer").innerHTML = `<div class="wrap"><span>© ${new Date().getFullYear()} ${esc(P.name)} · ${esc(P.location)}</span>
-    <span><a href="mailto:${esc(P.links.email)}">Email</a> · <a href="${esc(P.links.linkedin)}">LinkedIn</a></span></div>`;
+    <span><a href="mailto:${esc(P.links.email)}">${T.email}</a> · <a href="${esc(P.links.linkedin)}">LinkedIn</a></span></div>`;
 
   if (page === "home") {
     const [first, ...rest] = P.name.split(" ");
     $("#about").innerHTML = `<div class="wrap">
       <div>
         <span class="status"><i></i>${esc(P.status)}</span>
-        <h1>Hi, I'm <span class="grad">${esc(P.name)}</span></h1>
+        <h1>${T.hi} <span class="grad">${esc(P.name)}</span></h1>
         <p class="subtitle">${esc(P.title)}</p>
         <p class="summary">${esc(P.summary)}</p>
         <div class="contact">
           <a href="mailto:${esc(P.links.email)}">${icon.mail}${esc(P.links.email)}</a>
-          <span>${icon.phone}${esc(P.phone)}</span>
+          <span>${icon.phone}<bdi dir="ltr">${esc(P.phone)}</bdi></span>
           <span>${icon.pin}${esc(P.location)}</span>
         </div>
         <div class="actions">
-          <a class="btn primary" href="${esc(P.cv)}" download>${icon.download} Resume</a>
+          <a class="btn primary" href="${esc(P.cv)}" download>${icon.download} ${T.resume}</a>
           <a class="icon-btn" href="${esc(P.links.linkedin)}" aria-label="LinkedIn">${icon.linkedin}</a>
         </div>
       </div>
       <div class="side">
         <div class="ring"><img src="${esc(P.photo)}" alt="${esc(P.name)}"></div>
-        <div class="stats">${P.stats.map((s) => `<div class="stat"><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>
-        <a class="pill-link" href="projects.html">${icon.cube} Project demos →</a>
+        <div class="stats">${P.stats.map((s) => `<div class="stat"><b><bdi dir="ltr">${esc(s.value)}</bdi></b><span>${esc(s.label)}</span></div>`).join("")}</div>
+        <a class="pill-link" href="projects.html">${icon.cube} ${T.demos}</a>
       </div></div>`;
 
     $("#exp-list").innerHTML = P.experience.map((j) => `
@@ -72,7 +103,7 @@
           ${(g.projects || []).map((p) => `
             <div class="proj">
               <div class="proj-title"><div><b>${esc(p.name)}</b> <span>— ${esc(p.subtitle)}</span></div>
-                ${hasDemo.has(p.id) ? `<a class="demo" href="projects.html#${esc(p.id)}">${icon.play} ${window.DEMOS && DEMOS.has(p.id) ? "Demo" : "Details"}</a>` : ""}</div>
+                ${hasDemo.has(p.id) ? `<a class="demo" href="projects.html#${esc(p.id)}">${icon.play} ${window.DEMOS && DEMOS.has(p.id) ? T.demo : T.details}</a>` : ""}</div>
               ${bullets(p.bullets)}
             </div>`).join("")}
           ${g.bullets ? bullets(g.bullets) : ""}`).join("")}
@@ -84,18 +115,18 @@
 
     $("#edu-list").innerHTML =
       P.education.map((e) => `<div class="card edu">${logo("", e.school)}<div><h3 style="margin:0">${esc(e.school)}</h3><p>${esc(e.degree)}</p><p>${esc(e.detail)}</p></div></div>`).join("") +
-      `<div class="card certs"><h3>Certifications</h3>${P.certifications.map((c) => `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)} ↗</a>`).join("")}</div>`;
+      `<div class="card certs"><h3>${T.certs}</h3>${P.certifications.map((c) => `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)} ↗</a>`).join("")}</div>`;
   }
 
   if (page === "projects") {
     const details = {};
     P.experience.forEach((j) => j.groups.forEach((g) => (g.projects || []).forEach((p) => (details[p.id] = p))));
     const media = (p) => {
-      if (window.DEMOS && DEMOS.has(p.id)) return `<div class="demo-box" data-demo="${esc(p.id)}"></div>`;
+      if (window.DEMOS && DEMOS.has(p.id)) return `<div class="demo-box" dir="ltr" data-demo="${esc(p.id)}"></div>`;
       if (p.image) return `<figure class="shot"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy"><figcaption>${esc(p.caption || "")}</figcaption></figure>`;
       if (!p.video && !p.youtube) return "";
       if (p.youtube) return `<div class="media"><iframe src="https://www.youtube.com/embed/${esc(p.youtube)}" title="${esc(p.name)}" allowfullscreen loading="lazy"></iframe></div>`;
-      const ph = `<div class="ph"><div><b>${esc(p.name.split(" — ")[0])}</b>Demo video coming soon</div></div>`;
+      const ph = `<div class="ph"><div><b>${esc(p.name.split(" — ")[0])}</b>${T.soon}</div></div>`;
       return `<div class="media">${ph}${p.video ? `<video src="${esc(p.video)}" controls playsinline preload="metadata" onerror="this.remove()"></video>` : ""}</div>`;
     };
     const render = (cat) => {
@@ -105,11 +136,11 @@
           <div class="pcase-head"><h2>${esc(p.name)}</h2></div>
           ${chips(p.tags)}
           ${media(p)}
-          ${p.metrics.length ? `<div class="metrics">${p.metrics.map((m) => `<div class="metric"><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`).join("")}</div>` : ""}
+          ${p.metrics.length ? `<div class="metrics">${p.metrics.map((m) => `<div class="metric"><b><bdi dir="ltr">${esc(m.value)}</bdi></b><span>${esc(m.label)}</span></div>`).join("")}</div>` : ""}
           ${d ? bullets(d.bullets) : ""}
         </article>`;
       }).join("");
-      document.querySelectorAll("[data-demo]").forEach((el) => DEMOS.mount(el, el.dataset.demo));
+      document.querySelectorAll("[data-demo]").forEach((el) => DEMOS.mount(el, el.dataset.demo, LANG));
     };
     document.querySelectorAll(".filters button").forEach((b) =>
       b.addEventListener("click", () => {

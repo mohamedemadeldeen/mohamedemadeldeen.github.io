@@ -6,28 +6,29 @@
   <title>Projects — Mohamed Emad</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body data-page="projects">
   <nav class="nav" id="nav"></nav>
   <section><div class="wrap">
-    <div class="sec-head"><small>↳</small><h2>Projects</h2></div>
-    <p class="summary">What my squads built: Arabic voice agents, sovereign RAG, agentic automation, satellite and drone imagery, and real-time LiDAR perception.</p>
+    <div class="sec-head"><small>↳</small><h2 data-t="projTitle">Projects</h2></div>
+    <p class="summary" data-t="projLead"></p>
     <div class="filters">
-      <button class="on" data-cat="all">All</button>
-      <button data-cat="llm">LLM &amp; Agentic AI</button>
-      <button data-cat="cv">Satellite &amp; Drone</button>
-      <button data-cat="3d">3D Vision</button>
+      <button class="on" data-cat="all" data-t="all">All</button>
+      <button data-cat="llm" data-t="llm">LLM &amp; Agentic AI</button>
+      <button data-cat="cv" data-t="cv">Computer Vision</button>
+      <button data-cat="3d" data-t="d3">3D Vision</button>
     </div>
     <div id="cases"></div>
   </div></section>
   <footer id="footer"></footer>
-  <script src="data/portfolio.js?v=5"></script>
-  <script src="demos.js?v=5"></script>
-  <script src="app.js?v=5"></script>
+  <script src="data/portfolio.js?v=6"></script>
+  <script src="data/portfolio.ar.js?v=6"></script>
+  <script src="demos.js?v=6"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
