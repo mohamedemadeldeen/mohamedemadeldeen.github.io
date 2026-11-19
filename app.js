@@ -72,7 +72,7 @@
           ${(g.projects || []).map((p) => `
             <div class="proj">
               <div class="proj-title"><div><b>${esc(p.name)}</b> <span>— ${esc(p.subtitle)}</span></div>
-                ${hasDemo.has(p.id) ? `<a class="demo" href="projects.html#${esc(p.id)}">${icon.play} Demo</a>` : ""}</div>
+                ${hasDemo.has(p.id) ? `<a class="demo" href="projects.html#${esc(p.id)}">${icon.play} ${window.DEMOS && DEMOS.has(p.id) ? "Demo" : "Details"}</a>` : ""}</div>
               ${bullets(p.bullets)}
             </div>`).join("")}
           ${g.bullets ? bullets(g.bullets) : ""}`).join("")}
@@ -92,6 +92,8 @@
     P.experience.forEach((j) => j.groups.forEach((g) => (g.projects || []).forEach((p) => (details[p.id] = p))));
     const media = (p) => {
       if (window.DEMOS && DEMOS.has(p.id)) return `<div class="demo-box" data-demo="${esc(p.id)}"></div>`;
+      if (p.image) return `<figure class="shot"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy"><figcaption>${esc(p.caption || "")}</figcaption></figure>`;
+      if (!p.video && !p.youtube) return "";
       if (p.youtube) return `<div class="media"><iframe src="https://www.youtube.com/embed/${esc(p.youtube)}" title="${esc(p.name)}" allowfullscreen loading="lazy"></iframe></div>`;
       const ph = `<div class="ph"><div><b>${esc(p.name.split(" — ")[0])}</b>Demo video coming soon</div></div>`;
       return `<div class="media">${ph}${p.video ? `<video src="${esc(p.video)}" controls playsinline preload="metadata" onerror="this.remove()"></video>` : ""}</div>`;
